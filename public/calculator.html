@@ -1,0 +1,64 @@
+<html lang="en">
+<head>
+    <title>Calculator Example</title>
+    <link rel="stylesheet" href="/calculatorStyle.css"> <!-- External Stylesheet -->
+    <link rel="stylesheet" href="https://unpkg.com/98.css"> <!-- Windows 98 themed package -->
+</head>
+
+
+
+<body class="window"> 
+
+    <div class="title-bar">
+        <div class="title-bar-text">System Calculator</div>
+        <div class="title-bar-controls">
+            <button aria-label="Minimize"></button>
+            <button aria-label="Maximize"></button>
+            <button aria-label="Close"></button>
+        </div>
+    </div>
+
+    <div class="window-body">
+
+        <div class="field-row"> <!-- User enters Number 1 -->
+            <label for="num1">Number 1:</label>
+            <input type="number" id="num1" name="num1">
+        </div>
+        <div class="field-row"> <!-- User enters Number 2 -->
+            <label for="num2">Number 2:</label>
+            <input type="number" id="num2" name="num2">
+        </div>
+        <div class="field-row"> <!-- User selects Operation -->
+            <label for="operation">Operation:</label>
+            <select id="operation" name="operation">
+                <option value="add">Addition</option>
+                <option value="minus">Subtraction</option>
+                <option value="times">Multiplication</option>
+                <option value="divide">Division</option>
+                <option value="percentage">Percentage</option>
+            </select>
+        </div>
+        <div class="field-row"> <!-- Submits form -->
+            <button onclick="executeCalculation()">Submit</button>
+        </div>
+        <div class="field-row">
+            Result: <span id="result"></span>
+        </div>
+    </div>
+
+    <!-- Javascript below -->
+    <script> 
+        function executeCalculation() {
+            let num1 = document.getElementById("num1").value;
+            let num2 = document.getElementById("num2").value;
+            let operation = document.getElementById("operation").value;
+
+            fetch(`/calculator/${operation}?num1=${num1}&num2=${num2}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("result").textContent = data.result;
+                });
+        }
+    </script>
+</body>
+</html>
